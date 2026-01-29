@@ -1,5 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// Calculate freshness score based on publication date
+function calculateFreshness(dateStr: string): number {
+  try {
+    const pubDate = new Date(dateStr);
+    const now = new Date();
+    const daysSincePublished = Math.floor((now.getTime() - pubDate.getTime()) / (1000 * 60 * 60 * 24));
+
+    if (daysSincePublished <= 30) return 100;
+    if (daysSincePublished <= 365) return Math.max(70, 100 - Math.floor(daysSincePublished / 12));
+    if (daysSincePublished <= 1095) return Math.max(40, 70 - Math.floor((daysSincePublished - 365) / 25));
+    return Math.max(10, 40 - Math.floor((daysSincePublished - 1095) / 100));
+  } catch {
+    return 50;
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -30,6 +46,7 @@ export async function POST(request: NextRequest) {
       pubTypes: article.pubTypes?.join(', ') || '',
       hasFullText: article.hasFullText || false,
       relevanceScore: article.relevanceScore || 0,
+      freshnessScore: calculateFreshness(article.pubDate || ''),
       savedAt: new Date().toISOString(),
     };
 
