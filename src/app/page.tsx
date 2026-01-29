@@ -208,9 +208,17 @@ export default function Home() {
           </div>
 
           {/* Tagline */}
-          <p className="text-white/90 text-lg mb-8 text-center">
-            AI-Powered PubMed Search
-          </p>
+          <div className="flex items-center justify-center gap-2 text-white/90 text-lg mb-8">
+            <span>AI-Powered</span>
+            <Image
+              src="/PubMed-Logo-300x107.webp"
+              alt="PubMed"
+              width={100}
+              height={36}
+              className="inline-block"
+            />
+            <span>Search</span>
+          </div>
 
           {/* Search Bar */}
           <div className="w-full">
