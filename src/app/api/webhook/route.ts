@@ -22,8 +22,14 @@ export async function POST(request: NextRequest) {
       doi: article.doi || '',
       abstract: article.abstract || '',
       aiSummary: article.aiSummary || '',
-      url: article.url,
+      pubmedUrl: `https://pubmed.ncbi.nlm.nih.gov/${article.pmid}/`,
+      doiUrl: article.doi ? `https://doi.org/${article.doi}` : '',
+      pmcUrl: article.pmcId ? `https://www.ncbi.nlm.nih.gov/pmc/articles/${article.pmcId}/` : '',
       meshTerms: article.meshTerms?.join(', ') || '',
+      keywords: article.keywords?.join(', ') || '',
+      pubTypes: article.pubTypes?.join(', ') || '',
+      hasFullText: article.hasFullText || false,
+      relevanceScore: article.relevanceScore || 0,
       savedAt: new Date().toISOString(),
     };
 
