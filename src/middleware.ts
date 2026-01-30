@@ -12,10 +12,15 @@ export function middleware(request: NextRequest) {
   const cookieKey = request.cookies.get('widget_key')?.value;
   const key = urlKey || cookieKey;
 
+  // Skip auth in development
+  if (process.env.NODE_ENV === 'development') {
+    return NextResponse.next();
+  }
+
   // Get allowed keys from environment (comma-separated)
   const allowedKeys = process.env.WIDGET_ACCESS_KEYS?.split(',').map(k => k.trim()) || [];
 
-  // If no keys configured, allow all access (dev mode)
+  // If no keys configured, allow all access
   if (allowedKeys.length === 0 || allowedKeys[0] === '') {
     return NextResponse.next();
   }
