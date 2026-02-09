@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
       console.log('Journal:', payload.journal);
       console.log('Date:', payload.pubDate);
       console.log('DOI:', payload.doi);
-      console.log('URL:', payload.url);
+      console.log('URL:', payload.pubmedUrl);
       console.log('MeSH Terms:', payload.meshTerms);
       console.log('Saved At:', payload.savedAt);
       console.log('==========================================\n');
