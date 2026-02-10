@@ -192,17 +192,39 @@ export function ResultCard({ article, onSave, onGetSummary, isSaved = false }: R
         <span>{article.journalAbbrev || article.journal}</span>
       </div>
 
-      {article.doi && (
+      <div className="flex flex-wrap items-center gap-3">
+        {article.doi && (
+          <a
+            href={`https://doi.org/${article.doi}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 font-medium"
+          >
+            <ExternalLink className="w-3 h-3" />
+            View Full Article
+          </a>
+        )}
         <a
-          href={`https://doi.org/${article.doi}`}
+          href={`https://pubmed.ncbi.nlm.nih.gov/${article.pmid}/`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800"
+          className="inline-flex items-center gap-1 text-xs text-gray-500 hover:text-gray-700"
         >
           <ExternalLink className="w-3 h-3" />
-          DOI: {article.doi}
+          PubMed
         </a>
-      )}
+        {article.pmcId && (
+          <a
+            href={`https://www.ncbi.nlm.nih.gov/pmc/articles/${article.pmcId}/`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-xs text-teal-600 hover:text-teal-800 font-medium"
+          >
+            <ExternalLink className="w-3 h-3" />
+            Free Full Text (PMC)
+          </a>
+        )}
+      </div>
 
       {/* AI Summary Section */}
       {summaryData && (
@@ -274,13 +296,16 @@ export function ResultCard({ article, onSave, onGetSummary, isSaved = false }: R
                 </span>
               );
             })}
-            {article.hasFullText && (
-              <span
-                className="px-3 py-1 text-white text-xs font-medium rounded-full"
+            {article.hasFullText && article.pmcId && (
+              <a
+                href={`https://www.ncbi.nlm.nih.gov/pmc/articles/${article.pmcId}/`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1 text-white text-xs font-medium rounded-full hover:opacity-80 transition-opacity"
                 style={{ backgroundColor: '#0097c4' }}
               >
                 Free Full Text
-              </span>
+              </a>
             )}
           </div>
 

@@ -39,6 +39,11 @@ export async function POST(request: NextRequest) {
       abstract: article.abstract || '',
       aiSummary: article.aiSummary || '',
       pubmedUrl: `https://pubmed.ncbi.nlm.nih.gov/${article.pmid}/`,
+      fullArticleUrl: article.pmcId
+        ? `https://www.ncbi.nlm.nih.gov/pmc/articles/${article.pmcId}/`
+        : article.doi
+          ? `https://doi.org/${article.doi}`
+          : `https://pubmed.ncbi.nlm.nih.gov/${article.pmid}/`,
       doiUrl: article.doi ? `https://doi.org/${article.doi}` : '',
       pmcUrl: article.pmcId ? `https://www.ncbi.nlm.nih.gov/pmc/articles/${article.pmcId}/` : '',
       meshTerms: article.meshTerms?.join(', ') || '',
@@ -62,7 +67,8 @@ export async function POST(request: NextRequest) {
       console.log('Journal:', payload.journal);
       console.log('Date:', payload.pubDate);
       console.log('DOI:', payload.doi);
-      console.log('URL:', payload.pubmedUrl);
+      console.log('Full Article URL:', payload.fullArticleUrl);
+      console.log('PubMed URL:', payload.pubmedUrl);
       console.log('MeSH Terms:', payload.meshTerms);
       console.log('Saved At:', payload.savedAt);
       console.log('==========================================\n');
