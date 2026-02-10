@@ -1,5 +1,35 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+const PMC_BASE_URL = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils';
+
+// Fetch full article text from PubMed Central
+async function fetchFullText(pmcId: string): Promise<string> {
+  try {
+    const url = `${PMC_BASE_URL}/efetch.fcgi?db=pmc&id=${pmcId}&retmode=xml`;
+    const response = await fetch(url);
+    if (!response.ok) return '';
+
+    const xml = await response.text();
+
+    // Extract body text from PMC XML
+    const bodyMatch = xml.match(/<body>([\s\S]*?)<\/body>/);
+    if (!bodyMatch) return '';
+
+    // Strip XML tags and clean up whitespace
+    const text = bodyMatch[1]
+      .replace(/<title>([^<]*)<\/title>/g, '\n\n## $1\n\n')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .replace(/\n {2,}/g, '\n')
+      .trim();
+
+    return text;
+  } catch (error) {
+    console.error('Failed to fetch full text for', pmcId, error);
+    return '';
+  }
+}
+
 // Calculate freshness score based on publication date
 function calculateFreshness(dateStr: string): number {
   try {
@@ -28,6 +58,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Fetch full article text from PMC if available
+    const fullText = article.pmcId ? await fetchFullText(article.pmcId) : '';
+
     // Prepare payload for webhook (e.g., Airtable)
     const payload = {
       pmid: article.pmid,
@@ -52,6 +85,8 @@ export async function POST(request: NextRequest) {
       hasFullText: article.hasFullText || false,
       relevanceScore: article.relevanceScore || 0,
       freshnessScore: calculateFreshness(article.pubDate || ''),
+      fullText: fullText,
+      hasFullTextContent: fullText.length > 0,
       savedAt: new Date().toISOString(),
     };
 
