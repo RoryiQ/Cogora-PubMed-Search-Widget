@@ -152,6 +152,10 @@ export default function Home() {
 
     try {
       const summaryData = await getAISummary(pmid, article.title, article.abstract);
+      // Store summary on the article so it's available when saving
+      setResults(prev => prev.map(a =>
+        a.pmid === pmid ? { ...a, aiSummary: summaryData.summary } : a
+      ));
       return summaryData;
     } catch (error) {
       console.error('Failed to get summary:', error);
