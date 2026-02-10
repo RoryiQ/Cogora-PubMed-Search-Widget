@@ -293,7 +293,7 @@ export function FilterBar({ filters, onFilterChange, viewMode, onViewModeChange 
           onChange={(e) => updateFilter('freeFullTextOnly', e.target.checked)}
           className="w-4 h-4 rounded border-white/50 bg-transparent text-blue-500 focus:ring-blue-500"
         />
-        <span>Free Full Text</span>
+        <span>Exclude Paywalls</span>
       </label>
 
       {/* View Mode Toggle */}

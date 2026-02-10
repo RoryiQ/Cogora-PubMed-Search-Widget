@@ -22,7 +22,7 @@ const DEFAULT_FILTERS: FilterState = {
   dateRange: 'all',
   articleTypes: [],
   sortBy: 'relevance',
-  freeFullTextOnly: false,
+  freeFullTextOnly: true,
   language: 'english',
   countries: [],
 };
