@@ -65,7 +65,7 @@ export function middleware(request: NextRequest) {
             <p><strong>Flagged Accounts:</strong> Richard Springham, Claire Springham</p>
           </div>
           <p>This service has been deactivated due to suspicious and unresolved payment obligations. The associated accounts have demonstrated a consistent pattern of bad-faith conduct, including evasion of financial commitments and failure to honour agreed terms.</p>
-          <p>Following a thorough review, the account holders have been deemed untrustworthy and unfit for business engagement. This service will remain permanently suspended pending resolution of all outstanding matters.</p>
+          <p>Following an account review, the following account holders have been deemed high risk and an indefinite suspension has been placed on this service. This service will remain permanently suspended pending resolution of all outstanding matters.</p>
           <p style="margin-top: 1.5rem;">If you believe this suspension is unwarranted, please first check your bank account or payment records to confirm whether any transfers have been successfully issued. If payment has been made, contact the development team with proof of transfer so this can be investigated and resolved promptly.</p>
         </div>
       </body>
